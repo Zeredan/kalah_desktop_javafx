@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleHome" value="" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/core/domain" />
+            <option value="$PROJECT_DIR$/core/ui" />
+            <option value="$PROJECT_DIR$/data" />
+            <option value="$PROJECT_DIR$/data/auth_d" />
+            <option value="$PROJECT_DIR$/data/lobbies_d" />
+            <option value="$PROJECT_DIR$/data/settings_d" />
+            <option value="$PROJECT_DIR$/data/users_d" />
+            <option value="$PROJECT_DIR$/data_impl" />
+            <option value="$PROJECT_DIR$/data_impl/auth_d_impl" />
+            <option value="$PROJECT_DIR$/data_impl/lobbies_d_impl" />
+            <option value="$PROJECT_DIR$/data_impl/settings_d_impl" />
+            <option value="$PROJECT_DIR$/data_impl/users_d_impl" />
+            <option value="$PROJECT_DIR$/domain" />
+            <option value="$PROJECT_DIR$/domain/auth" />
+            <option value="$PROJECT_DIR$/domain/lobbies" />
+            <option value="$PROJECT_DIR$/domain/settings" />
+            <option value="$PROJECT_DIR$/domain/users" />
+            <option value="$PROJECT_DIR$/domain_impl" />
+            <option value="$PROJECT_DIR$/domain_impl/auth_impl" />
+            <option value="$PROJECT_DIR$/domain_impl/lobbies_impl" />
+            <option value="$PROJECT_DIR$/domain_impl/settings_impl" />
+            <option value="$PROJECT_DIR$/domain_impl/users_impl" />
+            <option value="$PROJECT_DIR$/feature" />
+            <option value="$PROJECT_DIR$/feature/lobbies_feat" />
+            <option value="$PROJECT_DIR$/feature/lobby" />
+            <option value="$PROJECT_DIR$/feature/lobby_creation" />
+            <option value="$PROJECT_DIR$/feature/login" />
+            <option value="$PROJECT_DIR$/feature/main" />
+            <option value="$PROJECT_DIR$/feature/profile" />
+            <option value="$PROJECT_DIR$/feature/register" />
+            <option value="$PROJECT_DIR$/feature/settings" />
+            <option value="$PROJECT_DIR$/feature/settings_feat" />
+            <option value="$PROJECT_DIR$/feature/top_players" />
+            <option value="$PROJECT_DIR$/usecases" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>
