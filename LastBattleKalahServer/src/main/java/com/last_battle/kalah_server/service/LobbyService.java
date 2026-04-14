@@ -1,5 +1,6 @@
 package com.last_battle.kalah_server.service;
 
+import com.last_battle.kalah_server.model.GameSession;
 import com.last_battle.kalah_server.model.Lobby;
 import com.last_battle.kalah_server.model.User;
 
@@ -87,8 +88,8 @@ public class LobbyService {
         if (lobby == null) return null;
         
         if (lobby.getLeader().getId().equals(user.getId()) && lobby.areBothReady()) {
-            int gameId = new Random().nextInt(10000);
-            lobby.setGameId(gameId);
+            GameSession gameSession = GameService.getInstance().createGame(lobby, lobby.getLeader(), lobby.getGuest());
+            lobby.setGameId(gameSession.getId());
         }
         return lobby;
     }

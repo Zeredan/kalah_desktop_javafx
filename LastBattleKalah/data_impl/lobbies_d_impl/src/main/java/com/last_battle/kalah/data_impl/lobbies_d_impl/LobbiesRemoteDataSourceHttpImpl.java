@@ -82,7 +82,7 @@ public class LobbiesRemoteDataSourceHttpImpl implements LobbiesRemoteDataSource 
 
     @Override
     public void trackLobby(String lobbyId, String userName, String password, Consumer<Lobby> onUpdate) {
-
+        disconnect();
         this.currentLobbyId = lobbyId;
         this.currentUsername = userName;
         this.currentPassword = password;
@@ -160,6 +160,7 @@ public class LobbiesRemoteDataSourceHttpImpl implements LobbiesRemoteDataSource 
         JsonObject message = new JsonObject();
         message.addProperty("type", "leave");
         out.println(gson.toJson(message));
+        disconnect();
     }
 
 
@@ -225,5 +226,18 @@ public class LobbiesRemoteDataSourceHttpImpl implements LobbiesRemoteDataSource 
                         throw new RuntimeException("Failed to join lobby: HTTP " + response.statusCode());
                     }
                 });
+    }
+
+    private void disconnect() {
+        try {
+            if (out != null) out.close();
+            if (in != null) in.close();
+            if (socket != null && !socket.isClosed()) socket.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        socket = null;
+        out = null;
+        in = null;
     }
 }

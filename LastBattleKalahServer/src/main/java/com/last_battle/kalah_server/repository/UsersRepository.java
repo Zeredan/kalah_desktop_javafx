@@ -121,4 +121,16 @@ public class UsersRepository {
         }
         return users;
     }
+
+    public void incrementWinsVsPlayer(Long userId) {
+        String sql = "UPDATE users SET wins_vs_player = wins_vs_player + 1 WHERE id = ?";
+
+        try (Connection conn = DatabaseConnector.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setObject(1, userId);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

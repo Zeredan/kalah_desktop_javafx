@@ -26,6 +26,7 @@ dependencies {
     implementation(project(":domain:auth"))
     implementation(project(":domain:users"))
     implementation(project(":domain:lobbies"))
+    implementation(project(":domain:game"))
 }
 
 tasks.test {

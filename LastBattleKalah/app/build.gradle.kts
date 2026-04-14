@@ -35,6 +35,7 @@ dependencies {
     implementation(project(":feature:register"))
     implementation(project(":feature:settings_feat"))
     implementation(project(":feature:top_players"))
+    implementation(project(":feature:game_vs_player"))
 
     implementation(project(":usecases"))
 
@@ -42,21 +43,25 @@ dependencies {
     implementation(project(":domain:auth"))
     implementation(project(":domain:users"))
     implementation(project(":domain:lobbies"))
+    implementation(project(":domain:game"))
 
     implementation(project(":domain_impl:settings_impl"))
     implementation(project(":domain_impl:auth_impl"))
     implementation(project(":domain_impl:users_impl"))
     implementation(project(":domain_impl:lobbies_impl"))
+    implementation(project(":domain_impl:game_impl"))
 
     implementation(project(":data:settings_d"))
     implementation(project(":data:auth_d"))
     implementation(project(":data:users_d"))
     implementation(project(":data:lobbies_d"))
+    implementation(project(":data:game_d"))
 
     implementation(project(":data_impl:settings_d_impl"))
     implementation(project(":data_impl:auth_d_impl"))
     implementation(project(":data_impl:users_d_impl"))
     implementation(project(":data_impl:lobbies_d_impl"))
+    implementation(project(":data_impl:game_d_impl"))
 
     implementation(project(":core:ui"))
 

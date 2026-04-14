@@ -18,7 +18,7 @@ public class Lobby {
     private Map<Long, Boolean> readyStatus; // userId -> isReady
     @JsonIgnore
     private transient Set<Socket> sockets; // активные сокет-подписки
-    private Integer gameId;
+    private String gameId;
 
     public Lobby() {
         this.readyStatus = new ConcurrentHashMap<>();
@@ -50,8 +50,8 @@ public class Lobby {
     public void setGuest(User guest) { this.guest = guest; }
     public Map<Long, Boolean> getReadyStatus() { return readyStatus; }
     public Set<Socket> getSockets() { return sockets; }
-    public Integer getGameId() { return gameId; }
-    public void setGameId(Integer gameId) { this.gameId = gameId; }
+    public String getGameId() { return gameId; }
+    public void setGameId(String gameId) { this.gameId = gameId; }
 
     public int getCurrentPlayers() { return guest == null ? 1 : 2; }
     public boolean isFull() { return guest != null; }

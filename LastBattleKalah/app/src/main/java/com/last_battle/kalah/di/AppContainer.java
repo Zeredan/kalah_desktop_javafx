@@ -1,29 +1,33 @@
 package com.last_battle.kalah.di;
 
 import com.last_battle.kalah.data.auth_d.AuthRemoteDataSource;
+import com.last_battle.kalah.data.game_d.GameRemoteDataSource;
 import com.last_battle.kalah.data.lobbies_d.LobbiesRemoteDataSource;
 import com.last_battle.kalah.data.settings_d.SettingsLocalDataSource;
 import com.last_battle.kalah.data.users_d.UsersRemoteDataSource;
 import com.last_battle.kalah.data_impl.auth_d_impl.AuthRemoteDataSourceHttpImpl;
+import com.last_battle.kalah.data_impl.game_d_impl.GameRemoteDataSourceSocketImpl;
 import com.last_battle.kalah.data_impl.lobbies_d_impl.LobbiesRemoteDataSourceHttpImpl;
 import com.last_battle.kalah.data_impl.settings_d_impl.SettingsLocalDataSourcePrefImpl;
 import com.last_battle.kalah.data_impl.users_d_impl.UsersRemoteDataSourceHttpImpl;
 import com.last_battle.kalah.domain.auth.AuthRepository;
+import com.last_battle.kalah.domain.game.GameRepository;
 import com.last_battle.kalah.domain.lobbies.LobbiesRepository;
 import com.last_battle.kalah.domain.settings.SettingsRepository;
 import com.last_battle.kalah.domain.users.UsersRepository;
 import com.last_battle.kalah.domain_impl.auth_impl.AuthRepositoryRemoteImpl;
+import com.last_battle.kalah.domain_impl.game_impl.GameRepositoryRemoteImpl;
 import com.last_battle.kalah.domain_impl.lobbies_impl.LobbiesRepositoryImpl;
 import com.last_battle.kalah.domain_impl.settings_impl.SettingsRepositoryLocalImpl;
 import com.last_battle.kalah.domain_impl.users_impl.UsersRepositoryRemoteImpl;
-import com.last_battle.kalah.feature.GameVsBotVM;
-import com.last_battle.kalah.feature.LobbyVM;
-import com.last_battle.kalah.feature.ProfileVM;
-import com.last_battle.kalah.feature.SettingsVM;
+import com.last_battle.kalah.feature.*;
 import com.last_battle.kalah.feature.lobbies.LobbiesVM;
 import com.last_battle.kalah.feature.lobby_creation.LobbyCreationVM;
 import com.last_battle.kalah.feature.top_players.TopPlayersVM;
 import com.last_battle.kalah.usecases.auth.*;
+import com.last_battle.kalah.usecases.game.LeaveGameUC;
+import com.last_battle.kalah.usecases.game.MakeMoveUC;
+import com.last_battle.kalah.usecases.game.TrackGameUC;
 import com.last_battle.kalah.usecases.lobbies.*;
 import com.last_battle.kalah.usecases.settings.GetDarkModeUC;
 import com.last_battle.kalah.usecases.settings.GetGameThemeModeUC;
@@ -53,18 +57,23 @@ public class AppContainer {
     private SetReadyUC setReadyUC;
     private StartGameUC startGameUC;
     private TrackLobbyUC trackLobbyUC;
+    private TrackGameUC trackGameUC;
+    private MakeMoveUC makeMoveUC;
+    private LeaveGameUC leaveGameUC;
 
     // Repositories
     private AuthRepository authRepository;
     private SettingsRepository settingsRepository;
     private UsersRepository usersRepository;
     private LobbiesRepository lobbiesRepository;
+    private GameRepository gameRepository;
 
     // Data Sources
     private AuthRemoteDataSource authRemoteDataSource;
     private SettingsLocalDataSource settingsLocalDataSource;
     private UsersRemoteDataSource usersRemoteDataSource;
     private LobbiesRemoteDataSource lobbiesRemoteDataSource;
+    private GameRemoteDataSource gameRemoteDataSource;
 
     // Core utils
     private HttpClient httpClient;
@@ -72,7 +81,8 @@ public class AppContainer {
 
     private String baseURL = "http://localhost:8080/api";
     private String socketHost = "localhost";
-    private int socketPort = 8081;
+    private int socketLobbiesPort = 8081;
+    private int socketGamePort = 8082;
 
     public AppContainer() {
         this.httpClient = HttpClient.newHttpClient();
@@ -82,14 +92,16 @@ public class AppContainer {
         this.authRemoteDataSource = new AuthRemoteDataSourceHttpImpl(httpClient, baseURL);
         this.settingsLocalDataSource = new SettingsLocalDataSourcePrefImpl(preferences);
         this.usersRemoteDataSource = new UsersRemoteDataSourceHttpImpl(httpClient, baseURL);
-        this.lobbiesRemoteDataSource = new LobbiesRemoteDataSourceHttpImpl(httpClient, baseURL, socketHost, socketPort);
+        this.lobbiesRemoteDataSource = new LobbiesRemoteDataSourceHttpImpl(httpClient, baseURL, socketHost, socketLobbiesPort);
+        this.gameRemoteDataSource = new GameRemoteDataSourceSocketImpl(socketHost, socketGamePort);
 
         // Repositories
         this.authRepository = new AuthRepositoryRemoteImpl(authRemoteDataSource);
         this.settingsRepository = new SettingsRepositoryLocalImpl(settingsLocalDataSource);
         this.usersRepository = new UsersRepositoryRemoteImpl(usersRemoteDataSource);
-        this.getSavedCredentialsUC = new GetSavedCredentialsUC(settingsRepository);
+        /*ouc*/this.getSavedCredentialsUC = new GetSavedCredentialsUC(settingsRepository);
         this.lobbiesRepository = new LobbiesRepositoryImpl(lobbiesRemoteDataSource, getSavedCredentialsUC);
+        this.gameRepository = new GameRepositoryRemoteImpl(gameRemoteDataSource, getSavedCredentialsUC);
 
         // Auth Use Cases
         this.registerUserUC = new RegisterUserUC(authRepository);
@@ -114,6 +126,11 @@ public class AppContainer {
         this.setReadyUC = new SetReadyUC(lobbiesRepository);
         this.startGameUC = new StartGameUC(lobbiesRepository);
         this.trackLobbyUC = new TrackLobbyUC(lobbiesRepository);
+
+        // Game Use Cases
+        this.trackGameUC = new TrackGameUC(gameRepository);
+        this.makeMoveUC = new MakeMoveUC(gameRepository);
+        this.leaveGameUC = new LeaveGameUC(gameRepository);
     }
 
     // ==================== ViewModels ====================
@@ -167,5 +184,8 @@ public class AppContainer {
                 createLobbyUC,
                 lobbyVM
         );
+    }
+    public GameVM provideGameVM() {
+        return new GameVM(trackGameUC, makeMoveUC, leaveGameUC);
     }
 }

@@ -19,4 +19,8 @@ public class UsersService {
     public User authenticate(String username, String password) {
         return usersRepository.authenticate(username, password).orElse(null);
     }
+
+    public void incrementWinsVsPlayer(Long userId) {
+        usersRepository.incrementWinsVsPlayer(userId);
+    }
 }

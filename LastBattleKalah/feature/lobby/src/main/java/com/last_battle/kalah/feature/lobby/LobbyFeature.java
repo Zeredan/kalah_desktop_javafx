@@ -6,6 +6,7 @@ import com.last_battle.kalah.core.ui.MainMenuLeft;
 import com.last_battle.kalah.core.ui.base.BaseFeature;
 import com.last_battle.kalah.core.ui.base.NavigateMainMenuFunc;
 import com.last_battle.kalah.core.ui.managers.Drawable;
+import com.last_battle.kalah.feature.GameVM;
 import com.last_battle.kalah.feature.LobbyVM;
 import com.last_battle.kalah.feature.ProfileVM;
 import javafx.geometry.Insets;
@@ -25,6 +26,7 @@ public class LobbyFeature implements BaseFeature {
     private final HBox root;
     private final LobbyVM lobbyVM;
     private final ProfileVM profileVM;
+    private final GameVM gameVM;
     private final NavigateMainMenuFunc onNavigate;
     private final Runnable onLeaveLobby;
     private final Runnable onGameStart;
@@ -38,12 +40,14 @@ public class LobbyFeature implements BaseFeature {
     public LobbyFeature(
             LobbyVM lobbyVM,
             ProfileVM profileVM,
+            GameVM gameVM,
             NavigateMainMenuFunc onNavigate,
             Runnable onLeaveLobby,
             Runnable onGameStart
     ) {
         this.lobbyVM = lobbyVM;
         this.profileVM = profileVM;
+        this.gameVM = gameVM;
         this.onNavigate = onNavigate;
         this.onLeaveLobby = onLeaveLobby;
         this.onGameStart = onGameStart;
@@ -191,6 +195,8 @@ public class LobbyFeature implements BaseFeature {
             if (lobby != null) {
                 updateLobbyUI(lobby);
                 if (lobby.getGameId() != null) {
+                    lobbyVM.leaveLobby();
+                    gameVM.trackGame(lobby.getGameId());
                     onGameStart.run();
                 }
             }

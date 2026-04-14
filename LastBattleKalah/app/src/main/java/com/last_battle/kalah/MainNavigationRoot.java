@@ -2,9 +2,11 @@ package com.last_battle.kalah;
 
 import com.last_battle.kalah.core.ui.base.BaseFeature;
 import com.last_battle.kalah.di.AppContainer;
+import com.last_battle.kalah.feature.GameVM;
 import com.last_battle.kalah.feature.GameVsBotVM;
 import com.last_battle.kalah.feature.LobbyVM;
 import com.last_battle.kalah.feature.ProfileVM;
+import com.last_battle.kalah.feature.game_vs_player.GameFeature;
 import com.last_battle.kalah.feature.lobbies.LobbiesFeature;
 import com.last_battle.kalah.feature.lobby.LobbyFeature;
 import com.last_battle.kalah.feature.lobby_creation.LobbyCreationFeature;
@@ -27,6 +29,7 @@ public class MainNavigationRoot {
     private ProfileVM profileVM;
     private GameVsBotVM gameVsBotVM;
     private LobbyVM lobbyVM;
+    private GameVM gameVM;
 
     public MainNavigationRoot(Stage stage) {
         this.stage = stage;
@@ -35,6 +38,7 @@ public class MainNavigationRoot {
         profileVM = appContainer.provideProfileVM();
         gameVsBotVM = appContainer.provideGameVsBotVM();
         lobbyVM = appContainer.provideLobbyVM();
+        gameVM = appContainer.provideGameVM();
 
         activateMainFeature();
     }
@@ -258,7 +262,6 @@ public class MainNavigationRoot {
         currentFeature = feature;
 
         Scene scene = new Scene(feature.getRoot(), 800, 600);
-        stage.setOnCloseRequest((e) -> {lobbyVM.leaveLobby();});
         stage.setScene(scene);
         stage.setTitle("Kalah Game (Lobbies)");
         stage.show();
@@ -299,6 +302,39 @@ public class MainNavigationRoot {
         LobbyFeature feature = new LobbyFeature(
                 lobbyVM,
                 profileVM,
+                gameVM,
+                (v) -> {
+                    switch (v) {
+                        case 0:
+                            activateMainFeature();
+                            break;
+                        case 1:
+                            activateTopPlayersFeature();
+                            break;
+                        case 2:
+                            activateSettingsFeature();
+                    }
+                },
+                () -> {
+                    activateMainFeature();
+                },
+                () -> {
+                    activateGameVsPlayerFeature();
+                }
+        );
+        currentFeature = feature;
+
+        Scene scene = new Scene(feature.getRoot(), 800, 600);
+        stage.setOnCloseRequest((e) -> {lobbyVM.leaveLobby();});
+        stage.setScene(scene);
+        stage.setTitle("Kalah Game (lobby)");
+        stage.show();
+    }
+
+    public void activateGameVsPlayerFeature() {
+        GameFeature feature = new GameFeature(
+                gameVM,
+                profileVM,
                 (v) -> {
                     switch (v) {
                         case 0:
@@ -321,8 +357,9 @@ public class MainNavigationRoot {
         currentFeature = feature;
 
         Scene scene = new Scene(feature.getRoot(), 800, 600);
+        stage.setOnCloseRequest((e) -> {gameVM.leaveGame();});
         stage.setScene(scene);
-        stage.setTitle("Kalah Game (lobby)");
+        stage.setTitle("Kalah Game (game vs player)");
         stage.show();
     }
 }

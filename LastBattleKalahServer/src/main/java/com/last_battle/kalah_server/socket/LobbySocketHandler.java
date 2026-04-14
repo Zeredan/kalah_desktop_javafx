@@ -44,6 +44,7 @@ public class LobbySocketHandler {
             out = new PrintWriter(socket.getOutputStream(), true);
 
             String firstMessage = in.readLine();
+            System.out.println("lobby socket Finput: " + firstMessage);
             JsonObject firstJson = gson.fromJson(firstMessage, JsonObject.class);
 
             if (!"track".equals(firstJson.get("type").getAsString())) {
@@ -73,6 +74,7 @@ public class LobbySocketHandler {
 
             String line;
             while ((line = in.readLine()) != null) {
+                System.out.println("lobby socket input: " + line);
                 JsonObject command = gson.fromJson(line, JsonObject.class);
                 String type = command.get("type").getAsString();
 

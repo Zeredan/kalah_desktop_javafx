@@ -10,14 +10,14 @@ public class Lobby {
     private int holes;
     private User leader;
     private User guest;
-    private Integer gameId;
+    private String gameId;
     private Map<String, Boolean> readyStatus; // userId -> isReady (leader всегда true)
 
     public Lobby() {
         this.readyStatus = new HashMap<>();
     }
 
-    public Lobby(String id, String name, int stones, int holes, User leader, User guest, Integer gameId) {
+    public Lobby(String id, String name, int stones, int holes, User leader, User guest, String gameId) {
         this.id = id;
         this.name = name;
         this.stones = stones;
@@ -63,8 +63,8 @@ public class Lobby {
         }
     }
 
-    public Integer getGameId() { return gameId; }
-    public void setGameId(Integer gameId) { this.gameId = gameId; }
+    public String getGameId() { return gameId; }
+    public void setGameId(String gameId) { this.gameId = gameId; }
 
     public Map<String, Boolean> getReadyStatus() { return readyStatus; }
     public void setReadyStatus(Map<String, Boolean> readyStatus) { this.readyStatus = readyStatus; }
