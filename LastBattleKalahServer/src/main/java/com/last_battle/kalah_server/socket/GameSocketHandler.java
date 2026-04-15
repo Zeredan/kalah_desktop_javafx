@@ -97,6 +97,7 @@ public class GameSocketHandler {
 
                             // Если игра закончилась, обновляем статистику
                             if (!"IN_PROGRESS".equals(newState.getStatus())) {
+                                System.out.println("UUS: CALLBACK");
                                 updateUserStats(session, newState);
                             }
                         };
@@ -160,6 +161,7 @@ public class GameSocketHandler {
         state.setWinnerId(winner.getId().toString());
 
         // Обновляем статистику
+        System.out.println("UUS: LEAVE");
         updateUserStats(session, state);
 
         broadcastToGame(session);
@@ -167,6 +169,11 @@ public class GameSocketHandler {
 
     private static void updateUserStats(GameSession session, GameState state) {
         String status = state.getStatus();
+
+        if (session.getWinRecorded()) {
+            return;
+        }
+        session.setWinRecorded(true);
 
         if ("PLAYER1_WIN".equals(status)) {
             userService.incrementWinsVsPlayer(session.getPlayer1().getId());

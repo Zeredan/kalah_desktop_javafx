@@ -81,12 +81,14 @@ public class AppContainer {
 
     private String baseURL = "http://localhost:8080/api";
     private String socketHost = "localhost";
+    56 24
+
     private int socketLobbiesPort = 8081;
     private int socketGamePort = 8082;
 
     public AppContainer() {
         this.httpClient = HttpClient.newHttpClient();
-        this.preferences = Preferences.userRoot().node("kalah_player1");
+        this.preferences = Preferences.userRoot().node("kalah_player2");
 
         // Data Sources
         this.authRemoteDataSource = new AuthRemoteDataSourceHttpImpl(httpClient, baseURL);

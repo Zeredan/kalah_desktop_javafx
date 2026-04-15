@@ -10,7 +10,7 @@ public class GameSession {
     private User player2;
     private GameState state;
     private Set<Socket> sockets;
-    //private Boolean isWinRecorded;
+    private Boolean isWinRecorded;
 
     public GameSession(String id, User player1, User player2, GameState state) {
         this.id = id;
@@ -18,6 +18,7 @@ public class GameSession {
         this.player2 = player2;
         this.state = state;
         this.sockets = new CopyOnWriteArraySet<>();
+        this.isWinRecorded = false;
     }
 
     public String getId() { return id; }
@@ -34,4 +35,12 @@ public class GameSession {
     
     public Set<Socket> getSockets() { return sockets; }
     public void setSockets(Set<Socket> sockets) { this.sockets = sockets; }
+
+    public Boolean getWinRecorded() {
+        return isWinRecorded;
+    }
+
+    public void setWinRecorded(Boolean winRecorded) {
+        isWinRecorded = winRecorded;
+    }
 }

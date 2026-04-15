@@ -103,4 +103,8 @@ public class GameVM extends ViewModel {
     public ObjectProperty<GameInfo> gameInfoProperty() { return gameInfo; }
     public ObjectProperty<Boolean> isLoadingProperty() { return isLoading; }
     public ObjectProperty<String> errorProperty() { return error; }
+
+    public String getCurrentGameId() {
+        return currentGameId;
+    }
 }

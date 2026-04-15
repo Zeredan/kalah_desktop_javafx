@@ -58,7 +58,11 @@ public class MainNavigationRoot {
                     }
                 },
                 () -> {
-                    activateLobbiesFeature();
+                    if (gameVM.getCurrentGameId() != null) {
+                        activateGameVsPlayerFeature();
+                    } else {
+                        activateLobbiesFeature();
+                    }
                 },
                 () -> {
                     System.out.println("PWB");
